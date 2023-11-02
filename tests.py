@@ -25,6 +25,7 @@ roues = MoveTank(mA,mD)
 
 #Test light/Color sensor
 while(True):
+    print(ls.ambient_light_intensity)
 #test grap
 # mC.on_for_seconds(SpeedPercent(-40),3)
 ''''
