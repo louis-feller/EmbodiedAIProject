@@ -6,7 +6,7 @@ MOVING_TIME_MS = 3000
 
 '''Closes the grabber as to grab the can
 Returns the time in ms it took to close'''
-def grab_can(pince, touch) :
+def close(pince, touch) :
     t_ms = 0
     while (not touch.is_pressed) and (t_ms <= MOVING_TIME_MS) :
         pince.run_timed(time_sp=10, speed_sp=-700) #negative speed for closing
@@ -14,7 +14,7 @@ def grab_can(pince, touch) :
     return t_ms
 
 '''Resets the grabber to its initial position'''    
-def reset_grabber(pince, offset) :
+def reset(pince, offset) :
     pince.run_timed(time_sp=MOVING_TIME_MS-offset, speed_sp = 700) #positive speed for opening
 
 
