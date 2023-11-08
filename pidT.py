@@ -13,17 +13,19 @@ mC = Motor(OUTPUT_C)
 mD = OUTPUT_D #wheel
 
 ts = TouchSensor()
-ls = LightSensor()
 cs = ColorSensor()
 us = UltrasonicSensor()
 leds = Leds()
+def clamp(n, minn, maxn):
+    return max(min(maxn, n), minn)
+
 
 
 kp = 1.4*100
 ki = 0.05 * 100
 kd = 1.1 * 100
 m = -0.15
-Tp = -6
+Tp = -20
 offset = 22
 integral  = 0
 derivative = 0
@@ -38,12 +40,12 @@ while(True):
     error = light - offset
     print("Error : ", error)
     integral = integral + error
-    derivative = error - lastError
+    #derivative = error - lastError
     Turn = (kp*error + ki * integral + kd*derivative) / 100
     print("Turn :", Turn)
     powerLw = Tp - Turn
     powerRw = Tp + Turn
     lastError = error
     #print("L :",powerLw," /  R : ",powerRw)
-    #roues.on(powerLw,powerRw)
+    roues.on(clamp(powerLw,-100,100),clamp(powerRw,-100,100))
 
