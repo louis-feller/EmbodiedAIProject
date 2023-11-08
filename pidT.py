@@ -40,7 +40,7 @@ while(True):
     error = light - offset
     print("Error : ", error)
     integral = integral + error
-    #derivative = error - lastError
+    derivative = error - lastError
     Turn = (kp*error + ki * integral + kd*derivative) / 100
     print("Turn :", Turn)
     powerLw = Tp - Turn
