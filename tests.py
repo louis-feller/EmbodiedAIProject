@@ -7,10 +7,10 @@ from ev3dev2.sensor.lego import TouchSensor
 from ev3dev2.led import Leds
 import time
 
-mA = OUTPUT_A #wheel
+mA = OUTPUT_A #left wheel
 mB = Motor(OUTPUT_B)
 mC = Motor(OUTPUT_C)
-mD = OUTPUT_D #wheel
+mD = OUTPUT_D  #right wheel
 
 ts = TouchSensor()
 ls = LightSensor()
@@ -24,7 +24,7 @@ roues = MoveTank(mA,mD)
 
 
 #Test light/Color sensor
-while(True):
+while(False):
     print(ls.ambient_light_intensity)
 #test grap
 # mC.on_for_seconds(SpeedPercent(-40),3)
@@ -32,6 +32,22 @@ while(True):
 3sec pour ouvrir et fermer
 '''
 #mC.run_timed(time_sp=3000, speed_sp=700)
+def close(pince, touch) :
+    MOVING_TIME_MS = 3000
+    t_ms = 280
+    while (not touch.is_pressed) and (t_ms < MOVING_TIME_MS) :
+        pince.run_timed(time_sp=10, speed_sp=-700) #negative speed for closing
+        t_ms += 10
+    pince.run_timed(time_sp=280, speed_sp=-700)  # negative speed for closing
+    return t_ms
+def reset(pince, offset) :
+    MOVING_TIME_MS = 3000
+    pince.run_timed(time_sp=offset, speed_sp = 700) #positive speed for opening
+
+x = close(mC,ts)
+print(x)
+#sleep(5)
+#reset(mC,x)
 
 # Ultrasonic sensor
 #while(True):
