@@ -21,6 +21,7 @@ class Grabber :
             self._pos -= 10
         if self._pos != MAX_CLOSE :
             self._motor.run_timed(time_sp= 280, speed_sp= CLOSING_SPEED)
+            self._pos -= 280
 
     '''Open the grabber for t_ms milliseconds'''    
     def open(self) :

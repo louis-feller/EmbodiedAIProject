@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from ev3dev2.motor import MoveTank, OUTPUT_A, OUTPUT_B, SpeedPercent, follow_for_forever
+from ev3dev2.motor import MoveTank, OUTPUT_A, OUTPUT_D, SpeedPercent, follow_for_forever
 from ev3dev2.sensor.lego import ColorSensor
 from ev3dev2.button import Button
 
