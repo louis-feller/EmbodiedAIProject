@@ -1,5 +1,5 @@
 from threading import Thread, Event
-import grabber, follower, sensors
+import behaviors
 
 follow_ev = Event
 grab_ev = Event
@@ -31,10 +31,9 @@ def manage_event(f, event) :
         event.clear()
 
 def get_sensor_input() :
-
     return (True, 20, 50)
 
 sensor_input = Thread(target = subsume)
-follow = Thread(target = follower.follow_line)
-grab = Thread(target = grabber.grab_can)
-back = Thread(target = follower.go_back)
+follow = Thread(target = behaviors.follow_line)
+grab = Thread(target = behaviors.grab)
+back = Thread(target = behaviors.go_back)
