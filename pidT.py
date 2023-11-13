@@ -26,41 +26,37 @@ def clamp(n, minn, maxn):
 
 
 gs.reset()
-kp = 1.32 * 100
-ki = 0.025 * 100
-kd = 1.6 * 100 * 1
-Tp = -17
+# parametres nuit :
+kp = 3.3 * 100
+ki = 2.0 * 100
+kd = 1.9 * 100
+Tp = -20
 
-offset = 19
+# Calibrer avant !!!
+offset = 12.0
 integral = 0
 derivative = 0.0
 lastError = 0
 
 roues = MoveTank(mA, mD)
-count = 0
+
 
 while (True):
 
-        while gs.angle > 1000.0:
-            #roues.sleep_time(0.010)
-            Tp += -6
-
-
-
-
+    while gs.angle > 1000.0:
+        # roues.sleep_time(0.010)
+        Tp += -6
 
     light = cs.reflected_light_intensity
-    print("Light : ", light,"\n Count : ", count,"\n Angle :",gs.angle)
     error = light - offset
-    #print("Error : ", error)
-    integral = integral + error
+    print("Error : ", error)
     derivative = error - lastError
     Turn = (kp * error + ki * integral + kd * derivative) / 100
-    #print("Turn :", Turn)
+    # print("Turn :", Turn)
     powerLw = Tp - Turn
     powerRw = Tp + Turn
     lastError = error
-    #print("L :", powerLw, " /  R : ", powerRw)
+    # print("L :", powerLw, " /  R : ", powerRw)
     roues.on(clamp(powerLw, -100, 100), clamp(powerRw, -100, 100))
 
     # sleep(2)
