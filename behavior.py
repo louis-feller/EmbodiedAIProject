@@ -8,12 +8,21 @@ back_ev = Event
 can_grabbed = True
 can_detected = True
 
+
+''' Main thread :
+Reads the sensor input and manages the other threads accordingly
+to implement the subsumption architecture
+'''
 def subsume() :
-    can_grabbed, can_detected = get_sensor_input()
-    while() :
-        manage_event(can_grabbed, back_ev)
+    prev_dist = 0
+    while() : #loop forever
+        touch, distance, color = get_sensor_input()
+        if abs(distance - prev_dist) > 20 :
+            can_detected = True
+        prev_dist = distance
+        manage_event(touch, back_ev)
         manage_event(can_detected, grab_ev)
-        manage_event(True, follow_ev)
+        manage_event(color, follow_ev)
         
 def manage_event(f, event) :
     if f() :
@@ -22,7 +31,8 @@ def manage_event(f, event) :
         event.clear()
 
 def get_sensor_input() :
-    return (True, True)
+
+    return (True, 20, 50)
 
 sensor_input = Thread(target = subsume)
 follow = Thread(target = follower.follow_line)

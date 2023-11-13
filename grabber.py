@@ -14,8 +14,8 @@ def close(pince, touch) :
     return t_ms
 
 '''Resets the grabber to its initial position'''    
-def reset(pince, offset) :
-    pince.run_timed(time_sp=MOVING_TIME_MS-offset, speed_sp = 700) #positive speed for opening
+def open(pince, t_ms) :
+    pince.run_timed(time_sp=t_ms, speed_sp = 700) #positive speed for opening
 
 
 
