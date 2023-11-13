@@ -1,2 +1,5 @@
-./robot
+robot
 *.pdf
+.vscode
+.idea
+vscode.rar
