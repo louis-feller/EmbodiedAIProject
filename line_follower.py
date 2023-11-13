@@ -9,7 +9,7 @@ from time import sleep
 
 btn = Button() # we will use any button to stop script
 
-tank = MoveTank(OUTPUT_A, OUTPUT_B)
+tank = MoveTank(OUTPUT_A, OUTPUT_D)
 
 # Connect an EV3 color sensor to any sensor port.
 
