@@ -3,7 +3,7 @@ from time import sleep
 
 from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B,OUTPUT_C,OUTPUT_D, SpeedPercent, MoveTank
 from ev3dev2.sensor import INPUT_1
-from ev3dev2.sensor.lego import TouchSensor
+from ev3dev2.sensor.lego import TouchSensor,GyroSensor
 from ev3dev2.led import Leds
 import time
 
@@ -13,7 +13,7 @@ mC = Motor(OUTPUT_C)
 mD = OUTPUT_D  #right wheel
 
 ts = TouchSensor()
-ls = LightSensor()
+gs = GyroSensor()
 cs = ColorSensor()
 us = UltrasonicSensor()
 leds = Leds()
@@ -25,7 +25,16 @@ roues = MoveTank(mA,mD)
 
 #Test light/Color sensor
 while(False):
-    print(ls.ambient_light_intensity)
+    print(cs.reflected_light_intensity)
+while(True):
+    print(gs.angle)
+    sleep(6)
+    gs.reset()
+
+
+
+
+
 #test grap
 # mC.on_for_seconds(SpeedPercent(-40),3)
 ''''
@@ -44,10 +53,7 @@ def reset(pince, offset) :
     MOVING_TIME_MS = 3000
     pince.run_timed(time_sp=offset, speed_sp = 700) #positive speed for opening
 
-x = close(mC,ts)
-print(x)
-#sleep(5)
-#reset(mC,x)
+
 
 # Ultrasonic sensor
 #while(True):
@@ -76,5 +82,5 @@ while not ts.is_pressed:
     print(us.distance_centimeters)
 '''
 
-sleep(2)
+
 #B.run_timed(time_sp=2000,speed_sp=-500)  # negatif = fermeture
