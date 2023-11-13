@@ -1,4 +1,3 @@
-import behaviors
 from ev3dev2.motor import Motor,MoveDifferential, OUTPUT_A, OUTPUT_B, OUTPUT_C, SpeedPercent
 from ev3dev2.sensor.lego import TouchSensor, UltrasonicSensor
 from ev3dev2.wheel import Wheel
@@ -10,5 +9,7 @@ us = UltrasonicSensor()
 ts = TouchSensor()
 grabber = Grabber(motor=grab_motor, touch_sensor=ts)
 
-behaviors.grab_can()
+grabber.open()
+grabber.close()
+grabber.reset()
 
