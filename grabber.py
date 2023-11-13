@@ -17,9 +17,10 @@ class Grabber :
     Returns the time in ms it took to close'''
     def close(self) :
         while (not self._touch.is_pressed) and (self._pos >= MAX_CLOSE) :
-            self._otor.run_timed(time_sp=10, speed_sp=CLOSING_SPEED) #negative speed for closing
+            self._motor.run_timed(time_sp=10, speed_sp=CLOSING_SPEED) #negative speed for closing
             self._pos -= 10
-        self._motor.run_timed(time_sp= 280, speed_sp= CLOSING_SPEED)
+        if self._pos != MAX_CLOSE :
+            self._motor.run_timed(time_sp= 280, speed_sp= CLOSING_SPEED)
 
     '''Open the grabber for t_ms milliseconds'''    
     def open(self) :
