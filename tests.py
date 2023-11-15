@@ -12,7 +12,6 @@ mB = Motor(OUTPUT_B)
 mC = Motor(OUTPUT_C)
 mD = OUTPUT_D  #right wheel
 
-ts = TouchSensor()
 gs = GyroSensor()
 cs = ColorSensor()
 us = UltrasonicSensor()
@@ -24,9 +23,9 @@ roues = MoveTank(mA,mD)
 
 
 #Test light/Color sensor
-while(False):
-    print(cs.reflected_light_intensity)
 while(True):
+    print(cs.reflected_light_intensity)
+while(False):
     print(gs.angle)
     sleep(6)
     gs.reset()
@@ -36,7 +35,7 @@ while(True):
 
 
 #test grap
-# mC.on_for_seconds(SpeedPercent(-40),3)
+#mC.on_for_seconds(SpeedPercent(-40),3)
 ''''
 3sec pour ouvrir et fermer
 '''
