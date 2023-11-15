@@ -1,6 +1,7 @@
 from ev3dev.auto import *
 from ev3dev2.sensor import INPUT_1
 from ev3dev2.sensor.lego import TouchSensor
+import time import sleep
 
 TRAVEL_TIME = 5000
 CLOSING_SPEED = -700
@@ -13,8 +14,10 @@ class Grabber :
     '''Closes the grabber'''
     def close(self) :
             self._motor.run_timed(time_sp=TRAVEL_TIME, speed_sp=CLOSING_SPEED) #negative speed for closing
+            sleep(TRAVEL_TIME / 1000)
             
 
     '''Open the grabber'''    
     def open(self) :
         self._motor.run_timed(time_sp=TRAVEL_TIME, speed_sp = OPENING_SPEED) #positive speed for opening
+        sleep(TRAVEL_TIME / 1000)
