@@ -91,7 +91,7 @@ def detect_can():
             min=us.distance_centimeters
             timemin=time1
     mD.run_timed(time_sp=10000, speed_sp=100)
-    sleep(1.5)
+    sleep(10)
     time2=0
     while time2>-10000:
         mA.run_timed(time_sp=100, speed_sp=-100)
@@ -102,13 +102,13 @@ def detect_can():
             timemin=time2
     if timemin<=0:
         mA.run_timed(time_sp=10000+timemin, speed_sp=100)
-        sleep(10000+timemin)
+        sleep(10+timemin/1000)
     else:
         mA.run_timed(time_sp=10000, speed_sp=100)
-        #sleep(10000)
+        sleep(10)
         mD.run_timed(time_sp=timemin, speed_sp=-100)
-        sleep(timemin)
-    while us.distance_centimeters>2:
+        sleep(timemin/1000)
+    while us.distance_centimeters>3.5:
         mA.run_timed(time_sp=1000, speed_sp=-200)
         mD.run_timed(time_sp=1000, speed_sp=-200)
  
@@ -118,6 +118,7 @@ def detect_can():
 #     l,r=line()
 #     cpt1=1
 detect_can()
+
 grabber.open()
 grabber.close()
 
