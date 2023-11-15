@@ -77,8 +77,8 @@ def detect_can():
         #cpt2=1
     mA=Motor(OUTPUT_A)
     mD=Motor(OUTPUT_D)
-    mA.run_timed(time_sp=1500, speed_sp=-300)
-    mD.run_timed(time_sp=1500, speed_sp=-300)
+    mA.run_timed(time_sp=1200, speed_sp=-300)
+    mD.run_timed(time_sp=1200, speed_sp=-300)
     sleep(1.5)
     timemin=0
     min=us.distance_centimeters
@@ -102,16 +102,16 @@ def detect_can():
             timemin=time2
     if timemin<=0:
         mA.run_timed(time_sp=10000+timemin, speed_sp=100)
-        sleep(5000+timemin)
+        sleep(10000+timemin)
     else:
         mA.run_timed(time_sp=10000, speed_sp=100)
-        #sleep(5000)
+        #sleep(10000)
         mD.run_timed(time_sp=timemin, speed_sp=-100)
         sleep(timemin)
-
-    
-
-    
+    while us.distance_centimeters>2:
+        mA.run_timed(time_sp=1000, speed_sp=-200)
+        mD.run_timed(time_sp=1000, speed_sp=-200)
+ 
 #cpt1=0
 #l,r=line()
 # while(cpt1<=10 and l>r):
