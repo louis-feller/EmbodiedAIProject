@@ -7,7 +7,8 @@ motors = MoveDifferential(OUTPUT_A, OUTPUT_D,wheel_class=Wheel(49.6,28),wheel_di
 grab_motor = Motor(OUTPUT_C)
 us = UltrasonicSensor()
 ts = TouchSensor()
-grabber = Grabber(motor=grab_motor, touch_sensor=ts)
+grabber = Grabb
+er(motor=grab_motor, touch_sensor=ts)
 
 '''Can detected :
 - open gripper
@@ -63,39 +64,39 @@ def detect_can():
     mD=Motor(OUTPUT_D)
     mA.run_timed(time_sp=1500, speed_sp=-300)
     mD.run_timed(time_sp=1500, speed_sp=-300)
-    sleep(0.010)
+    sleep(1.5)
     timemin=0
     min=us.distance_centimeters
     time1=0
     while time1<=5000:
         mD.run_timed(time_sp=100, speed_sp=-100)
+        sleep(0.1)
         time1+=100
         if us.distance_centimeters<min:
             min=us.distance_centimeters
             timemin=time1
-    sleep(0.010)
     mD.run_timed(time_sp=5000, speed_sp=100)
-    sleep(0.010)
+    sleep(1.5)
     time2=0
     while time2>-5000:
         mA.run_timed(time_sp=100, speed_sp=-100)
+        sleep(0.1)
         time2-=100
         if us.distance_centimeters<min:
             min=us.distance_centimeters
             timemin=time2
-    sleep(0.010)
     if timemin<=0:
         mA.run_timed(time_sp=5000+timemin, speed_sp=100)
+        sleep(5000+timemin)
     else:
         mA.run_timed(time_sp=5000, speed_sp=100)
-        sleep(0.010)
+        sleep(5000)
         mD.run_timed(time_sp=timemin, speed_up=-100)
+        sleep(timemin)
     grab_can()
     
 
     
-    
-
 cpt1=0
 l,r=line()
 while(cpt1<=10 and l>r):
