@@ -26,6 +26,5 @@ buttons = Button()
 
 
 grabber = Grabber(mC)
-grabber.open()
+grabber.down()
 spkr.beep()
-grabber.close()
