@@ -25,6 +25,8 @@ roues = MoveTank(mA,mD)
 #Test light/Color sensor
 while(True):
     print(cs.reflected_light_intensity)
+    #roues.on_for_seconds(-100,-100,7.8)
+
 while(False):
     print(gs.angle)
     sleep(6)

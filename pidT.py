@@ -6,6 +6,7 @@ from ev3dev2.sound import Sound
 from ev3dev2.sensor import INPUT_1
 from ev3dev2.sensor.lego import TouchSensor, GyroSensor
 from ev3dev2.led import Leds
+from ev3dev2.button import Button
 import time
 
 mA = OUTPUT_A  # wheel
@@ -20,6 +21,7 @@ spkr = Sound()
 gs = GyroSensor()
 us = UltrasonicSensor()
 leds = Leds()
+buttons = Button()
 
 
 def clamp(n, minn, maxn):
@@ -28,28 +30,33 @@ def clamp(n, minn, maxn):
 
 gs.reset()
 # parametres nuit :
-kp = 3.5 * 100
+kp = 3.3 * 100
 ki = 2.0 * 100
 kd = 1.9 * 100
-Tp = -19
+Tp = -18
 
 # Calibrer avant !!!
-offset = 18.0
+offset = 45.0
 integral = 0
 derivative = 0.0
 lastError = 0
 
+mC.speed_sp = -700
+mC.time_sp = 500
+mC.run_to_rel_pos()
+
+mC.speed_sp = 700
+mC.run_to_rel_pos()
 
 
 
-while (True):
+while True and not buttons.up:
+
 
     while gs.angle > 1000.0:
         # roues.sleep_time(0.010)
         Tp += -6
-    i = 0
-    while i < 3:
-        i += 1
+    sleep(0.002)
     light = cs.reflected_light_intensity
     error = light - offset
     print("Error : ", error)
