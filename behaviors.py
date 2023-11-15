@@ -1,14 +1,29 @@
-from ev3dev2.motor import Motor,MoveDifferential, OUTPUT_A, OUTPUT_D, OUTPUT_C, SpeedPercent
-from ev3dev2.sensor.lego import TouchSensor, UltrasonicSensor
-from ev3dev2.wheel import Wheel
-from grabber import Grabber
+from ev3dev.auto import *
+from time import sleep
 
-motors = MoveDifferential(OUTPUT_A, OUTPUT_D,wheel_class=Wheel(49.6,28),wheel_distance_mm=170)
-grab_motor = Motor(OUTPUT_C)
+from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D, SpeedPercent, MoveTank, follow_for_ms
+from ev3dev2.sound import Sound
+from ev3dev2.sensor import INPUT_1
+from ev3dev2.sensor.lego import TouchSensor, GyroSensor
+from ev3dev2.led import Leds
+from ev3dev2.button import Button
+from grabber import Grabber
+import time
+
+mA = OUTPUT_A  # wheel
+mB = Motor(OUTPUT_B)
+mC = Motor(OUTPUT_C)
+mD = OUTPUT_D  # wheel
+roues = MoveTank(mA, mD)
+
+#ts = TouchSensor()
+cs = ColorSensor()
+spkr = Sound()
+gs = GyroSensor()
 us = UltrasonicSensor()
-ts = TouchSensor()
-grabber = Grabb
-er(motor=grab_motor, touch_sensor=ts)
+leds = Leds()
+buttons = Button()
+grabber = Grabber(mC)
 
 '''Can detected :
 - open gripper
@@ -68,17 +83,17 @@ def detect_can():
     timemin=0
     min=us.distance_centimeters
     time1=0
-    while time1<=5000:
+    while time1<=10000:
         mD.run_timed(time_sp=100, speed_sp=-100)
         sleep(0.1)
         time1+=100
         if us.distance_centimeters<min:
             min=us.distance_centimeters
             timemin=time1
-    mD.run_timed(time_sp=5000, speed_sp=100)
+    mD.run_timed(time_sp=10000, speed_sp=100)
     sleep(1.5)
     time2=0
-    while time2>-5000:
+    while time2>-10000:
         mA.run_timed(time_sp=100, speed_sp=-100)
         sleep(0.1)
         time2-=100
@@ -86,31 +101,27 @@ def detect_can():
             min=us.distance_centimeters
             timemin=time2
     if timemin<=0:
-        mA.run_timed(time_sp=5000+timemin, speed_sp=100)
+        mA.run_timed(time_sp=10000+timemin, speed_sp=100)
         sleep(5000+timemin)
     else:
-        mA.run_timed(time_sp=5000, speed_sp=100)
-        sleep(5000)
-        mD.run_timed(time_sp=timemin, speed_up=-100)
+        mA.run_timed(time_sp=10000, speed_sp=100)
+        #sleep(5000)
+        mD.run_timed(time_sp=timemin, speed_sp=-100)
         sleep(timemin)
-    grab_can()
+
     
 
     
-cpt1=0
-l,r=line()
-while(cpt1<=10 and l>r):
-    l,r=line()
-    cpt1=1
+#cpt1=0
+#l,r=line()
+# while(cpt1<=10 and l>r):
+#     l,r=line()
+#     cpt1=1
 detect_can()
+grabber.open()
+grabber.close()
 
-def grab_can() :
-    sp = SpeedPercent(20)
-    grabber.open()
-    distance = us.us_distance_centimeters
-    motors.on_for_distance(distance_mm = distance/10,speed=sp)
-    grabber.close()
-    motors.on_for_distance(distance_mm= -(distance/10),speed=sp)
+
 
 '''No line detected :
 Go at low speed in a right turn spiral forever'''
