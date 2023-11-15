@@ -40,16 +40,6 @@ offset = 45.0
 integral = 0
 derivative = 0.0
 lastError = 0
-
-mC.speed_sp = -700
-mC.time_sp = 500
-mC.run_to_rel_pos()
-
-mC.speed_sp = 700
-mC.run_to_rel_pos()
-
-
-
 while True and not buttons.up:
 
 
