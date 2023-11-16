@@ -1,19 +1,26 @@
-from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D, MoveTank, SpeedPercent
-from ev3dev2.sensor.lego import ColorSensor, GyroSensor, UltrasonicSensor
-from ev3dev2.button import Button
+from ev3dev.auto import *
 from time import sleep
 
-# Define Motors
-mA = LargeMotor(OUTPUT_A)
-mB = LargeMotor(OUTPUT_B)
-mC = LargeMotor(OUTPUT_C)
-mD = LargeMotor(OUTPUT_D)
+from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D, SpeedPercent, MoveTank, follow_for_ms
+from ev3dev2.sound import Sound
+from ev3dev2.sensor import INPUT_1
+from ev3dev2.sensor.lego import TouchSensor, GyroSensor
+from ev3dev2.led import Leds
+from ev3dev2.button import Button
+import time
+
+mA = OUTPUT_A  # wheel
+mB = Motor(OUTPUT_B)
+mC = Motor(OUTPUT_C)
+mD = OUTPUT_D  # wheel
 roues = MoveTank(mA, mD)
 
-# Define Sensors
+#ts = TouchSensor()
 cs = ColorSensor()
+spkr = Sound()
 gs = GyroSensor()
 us = UltrasonicSensor()
+leds = Leds()
 buttons = Button()
 
 # Define Constants
