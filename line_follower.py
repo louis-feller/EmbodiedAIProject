@@ -1,27 +1,73 @@
-#!/usr/bin/env python3
-
-
-from ev3dev2.motor import MoveTank, OUTPUT_A, OUTPUT_D, SpeedPercent, follow_for_forever
-from ev3dev2.sensor.lego import ColorSensor
-from ev3dev2.button import Button
-
+from ev3dev.auto import *
 from time import sleep
 
-btn = Button() # we will use any button to stop script
+from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D, SpeedPercent, MoveTank, follow_for_ms
+from ev3dev2.sound import Sound
+from ev3dev2.sensor import INPUT_1
+from ev3dev2.sensor.lego import TouchSensor, GyroSensor
+from ev3dev2.led import Leds
+from ev3dev2.button import Button
+from grabber import Grabber
+import time
 
-tank = MoveTank(OUTPUT_A, OUTPUT_D)
+mA = OUTPUT_A  # wheel
+mB = Motor(OUTPUT_B)
+mC = Motor(OUTPUT_C)
+mD = OUTPUT_D  # wheel
+roues = MoveTank(mA, mD)
 
-# Connect an EV3 color sensor to any sensor port.
+# ts = TouchSensor()
+cs = ColorSensor()
+spkr = Sound()
+gs = GyroSensor()
+us = UltrasonicSensor()
+leds = Leds()
+buttons = Button()
+grabber = Grabber(mC)
+def line_follower():
+    # Boucler indéfiniment
+    while True:
+        # Lire la valeur du capteur de couleur
+        light_value = cs.reflected_light_intensity
 
-tank.cs = ColorSensor()
+        # Calculer l'erreur par rapport à la valeur de référence
+        error = light_value - offset
 
-while not btn.any():    # exit loop when any button pressed
-    tank.followline(
-        kp=10, ki=0, kd=0,
-        speed=SpeedPercent(30),
-        follow_for=follow_for_forever
-    )
+        # Calculer la somme des erreurs
+        integral = integral + error
 
-    
+        # Calculer la variation de l'erreur
+        derivative = error - last_error
 
-    sleep(0.1) # wait for 0.1 seconds
+        # Calculer la correction à appliquer aux moteurs
+        turn = Kp * error + Ki * integral + Kd * derivative
+
+        # Mettre à jour l'erreur précédente
+        last_error = error
+
+        # Calculer la puissance des moteurs gauche et droit
+        power_left = Tp + turn
+        power_right = Tp - turn
+
+        # Ajuster la puissance des moteurs si elle dépasse les limites
+        if power_left > 100:
+            power_left = 100
+        if power_right > 100:
+            power_right = 100
+        if power_left < -100:
+            power_left = -100
+        if power_right < -100:
+            power_right = -100
+
+        # Faire avancer le robot avec les puissances calculées
+        tank.on(power_left, power_right)
+
+        # Si le capteur de couleur détecte du blanc, arrêter le robot et faire un son
+        if light_value > 80:
+            tank.off()
+            sound.beep()
+            break
+
+
+# Appeler la fonction line follower
+line_follower()

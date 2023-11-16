@@ -160,7 +160,7 @@ def detect_can2():
         sleep(timemin / 1000)
 
     # Move the robot until the distance is greater than or equal to 4.5 cm
-    while us.distance_centimeters >= 4.5:
+    while us.distance_centimeters >= 4.50:
         mA.run_timed(time_sp=1000, speed_sp=-200)
         mD.run_timed(time_sp=1000, speed_sp=-200)
         print("Distance : ", us.distance_centimeters)
