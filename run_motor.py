@@ -80,6 +80,21 @@ def follow_line():
 
         roues.on(powerLw,powerRw)
 
+        if abs(error) > 20:
+            search_counter += 1
+            if search_counter <= max_search_attempts:
+                # Perform a search behavior (e.g., turn in place)
+                roues.on(-30, 30)  # Adjust the turn speeds as needed
+                sleep(1)  # Adjust the search time as needed
+            else:
+                # If maximum search attempts reached, stop the robot or take other actions
+                roues.off()
+                print("Lost the line and reached maximum search attempts.")
+                # You may add additional actions or behaviors here
+
+                # Reset the search counter for the next line following attempt
+                search_counter = 0
+
 # Behavior: Detect Can and Grab
 def detect_can_and_grab():
     # Implement the logic for detecting the can and grabbing it using the grabber
