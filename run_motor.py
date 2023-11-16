@@ -46,20 +46,20 @@ grabber = Grabber(mC)
 
 # Behavior: Follow Line
 def follow_line():
-    kp = 3.3 * 100
-    ki = 2.0 * 100
-    kd = 1.9 * 100
-    Tp = -18
+    kp = 2.1 * 100
+    ki = 1 * 100
+    kd = 1 * 100 *0
+    Tp = -19
 
-    offset = 45.0
+    black = 4
+    white = 35
+    offset = (black + white) / 2
     integral = 0
     derivative = 0.0
     lastError = 0
 
     while True:
-        while gs.angle > 1000.0:
-            Tp += -6
-        sleep(0.002)
+        sleep(0.05)
         light = cs.reflected_light_intensity
         error = light - offset
         print("Error:", error)
@@ -79,21 +79,25 @@ def follow_line():
             powerRw = -100
 
         roues.on(powerLw,powerRw)
+        if light > 68:
+            roues.off()
+            spkr.beep()
+            break
 
-        if abs(error) > 20:
-            search_counter += 1
-            if search_counter <= max_search_attempts:
-                # Perform a search behavior (e.g., turn in place)
-                roues.on(-30, 30)  # Adjust the turn speeds as needed
-                sleep(1)  # Adjust the search time as needed
-            else:
-                # If maximum search attempts reached, stop the robot or take other actions
-                roues.off()
-                print("Lost the line and reached maximum search attempts.")
-                # You may add additional actions or behaviors here
-
-                # Reset the search counter for the next line following attempt
-                search_counter = 0
+        # if abs(error) > 20:
+        #     search_counter += 1
+        #     if search_counter <= max_search_attempts:
+        #         # Perform a search behavior (e.g., turn in place)
+        #         roues.on(-30, 30)  # Adjust the turn speeds as needed
+        #         sleep(1)  # Adjust the search time as needed
+        #     else:
+        #         # If maximum search attempts reached, stop the robot or take other actions
+        #         roues.off()
+        #         print("Lost the line and reached maximum search attempts.")
+        #         # You may add additional actions or behaviors here
+        #
+        #         # Reset the search counter for the next line following attempt
+        #         search_counter = 0
 
 # Behavior: Detect Can and Grab
 def detect_can_and_grab():
@@ -152,5 +156,6 @@ def detect_can_and_grab():
 # Main Behavior Loop
 while True:
     # Run behaviors concurrently
+    spkr.beep()
     follow_line()
-    detect_can_and_grab()
+    #detect_can_and_grab()

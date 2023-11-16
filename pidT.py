@@ -36,7 +36,9 @@ kd = 1.9 * 100
 Tp = -18
 
 # Calibrer avant !!!
-offset = 45.0
+black = 6
+white = 60
+offset = (black + white )
 integral = 0
 derivative = 0.0
 lastError = 0
